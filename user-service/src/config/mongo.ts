@@ -1,5 +1,5 @@
 require('dotenv').config();
-import { log } from './Logger';
+import { log } from './logger';
 import Mongoose from 'mongoose'
 
 export default async () => {

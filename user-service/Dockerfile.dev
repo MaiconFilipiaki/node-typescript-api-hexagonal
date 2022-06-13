@@ -1,0 +1,15 @@
+FROM node:lts
+
+WORKDIR /usr
+
+COPY ./user-service/package.json ./
+
+COPY ./user-service/src ./src
+
+RUN ls -a
+
+RUN npm install
+
+EXPOSE 3003
+
+CMD ["npm","run","dev"]

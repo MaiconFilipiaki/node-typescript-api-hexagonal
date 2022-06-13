@@ -6,6 +6,29 @@ networks:
   driver: bridge
 
 services:
+  app:
+    container_name: app
+    restart: always
+    build:
+      context: .
+      dockerfile: ./user-service/Dockerfile.dev
+    env_file: ./user-service/.env
+    environment:
+      - PORT=3003
+      - MONGO_URL=mongodb://mongo:27017/test
+    ports:
+      - 3003:3003
+    networks:
+      - kong-net
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - kong-net
 
   #######################################
   # Postgres: The database used by Kong
@@ -45,6 +68,8 @@ services:
       - kong-database
     depends_on:
       - kong-database
+    extra_hosts:
+      my-local-host: 10.0.0.10
 
   #######################################
   # Kong: The API Gateway
