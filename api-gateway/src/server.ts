@@ -1,15 +1,11 @@
 require("dotenv").config();
 import { log } from "./config/logger";
 import express, { Application } from "express";
-import cors from "cors";
 import apiErrorHandler from "./app/exception/apiErrorHandler";
-import MongoConfig from "./config/mongo";
-import { routing } from "./app/http/api/router";
+import { routing } from "./app/gateway/index";
 
 async function mountApp() {
   const app: Application = express();
-  app.use(cors());
-  await MongoConfig();
 
   app.use(express.json());
   routing(app);
