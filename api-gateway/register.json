@@ -1,0 +1,1 @@
+{"services":{"user":{"port":1001,"host":"localhost","verb":"http","name":"user"}}}

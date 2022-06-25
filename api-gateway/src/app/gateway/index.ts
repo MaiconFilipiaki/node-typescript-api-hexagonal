@@ -1,12 +1,15 @@
 import { Application, Request, Response } from "express";
 import axios from "axios";
+import registerFile from "../../../register.json";
 
 const routing = (app: Application) => {
-  app.post("/:apiName/*", async (req: Request, res: Response) => {
-    console.log(`http://127.0.0.1:3003/${req.params[0]}`, req.params[0]);
+  app.all("/:apiName/:path", async (req: Request, res: Response) => {
+    const service = registerFile.services[req.params.apiName]
+    if (!service) res.status(404).json({"msg": "service not register"})
+    const link =  `${service.verb}://${service.host}:${service.port}/${req.params.path}`
     axios({
       method: req.method,
-      url: `http://localhost:3003/api/v1/user`,
+      url: link,
       headers: req.headers as any,
       data: req.body,
     })
